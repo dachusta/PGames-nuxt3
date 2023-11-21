@@ -1,10 +1,10 @@
 <template>
-  <div>
+  <!-- <div> -->
     <!-- <NuxtWelcome /> -->
     <NuxtLayout>
       <NuxtPage />
     </NuxtLayout>
-  </div>
+  <!-- </div> -->
 </template>
 
 <style>
@@ -30,6 +30,7 @@ body {
 }
 
 #__nuxt {
+  display: grid;
   font-family: 'Open Sans', sans-serif;
   color: #2c3e50;
   background: #1C1C2C;

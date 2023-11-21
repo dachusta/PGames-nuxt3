@@ -334,8 +334,9 @@ apiMovies(route.params.id)
     "header"
     "main"
     "footer";
-  /* gap: 30px; */
+  gap: 30px;
   /* padding: 30px; */
+  grid-template-rows: min-content 1fr min-content;
   position: relative;
 }
 .page::after {
@@ -363,7 +364,7 @@ apiMovies(route.params.id)
     "additional additional";
   grid-template-columns: 640px 1fr;
   gap: 10px;
-  margin: 30px;
+  margin: 0 30px auto;
   z-index: 1;
 
   .screenshots {
