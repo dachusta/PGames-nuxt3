@@ -32,7 +32,6 @@
 </template>
 
 <script setup>
-import { useRouter } from 'vue-router'
 import { ref } from 'vue'
 
 // eslint-disable-next-line
@@ -42,9 +41,8 @@ const props = defineProps({
     default: () => []
   }
 })
-const router = useRouter()
 function toGameDetails (id) {
-  router.push({ name: 'GameDetails', params: { id } })
+  navigateTo(`/${id}`)
 }
 
 const gameSeriesListEl = ref(null)
