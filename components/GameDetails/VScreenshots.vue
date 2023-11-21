@@ -72,13 +72,11 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
 import IconClose from '@/components/icons/IconClose.vue'
 
-// eslint-disable-next-line
 const emit = defineEmits(['isFullScreen'])
 
-// eslint-disable-next-line
 const props = defineProps({
   list: {
     type: Array,
@@ -153,7 +151,6 @@ const hideFullScreen = () => {
 const keyboardNav = (el) => {
   // el.preventDefault()
   if (isFullScreen.value) {
-    // keypress
     if (el.key === 'ArrowLeft') {
       prevScreen()
     }
@@ -163,15 +160,15 @@ const keyboardNav = (el) => {
     if (el.key === 'Escape') {
       hideFullScreen()
     }
-    // console.log(el.key)
   }
-  // emit('isFullScreen', isFullScreen.value)
 }
+onMounted(() => {
+  document.addEventListener('keydown', keyboardNav)
+})
+onUnmounted(() => {
+  document.removeEventListener('keydown', keyboardNav)
+ })
 
-// document.addEventListener('keydown', keyboardNav)
-
-// const findIndex = ref(props.list.findIndex(e => e.image === screenshot.value))
-// console.log(findIndex)
 </script>
 
 <style scoped>
@@ -185,6 +182,7 @@ const keyboardNav = (el) => {
     height: 360px;
     object-fit: contain;
     background: black;
+    cursor: pointer;
   }
 
   .screenshots__list {
@@ -260,11 +258,12 @@ const keyboardNav = (el) => {
       }
     }
 
-    img {
+    & img {
       width: inherit;
       max-width: calc(100vw - 200px);
       max-height: calc(100vh - 200px);
       height: inherit;
+      cursor: pointer;
     }
   }
 }
