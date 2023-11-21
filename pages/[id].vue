@@ -86,7 +86,7 @@
               v-if="ratingPercent"
               class="rating"
             >
-              <!-- <div
+              <div
                 class="percent"
                 :style="{'--clr':'#04fc43', '--num': ratingPercent}"
               >
@@ -107,13 +107,13 @@
                   <h2>{{ ratingPercent }}</h2>
                   <p>Rating</p>
                 </div>
-              </div> -->
+              </div>
             </div>
             <div
               v-if="gameItem.metacritic"
               class="metacritic"
             >
-              <!-- <div
+              <div
                 class="percent"
                 :style="{'--clr':'#04fc43', '--num': gameItem.metacritic}"
               >
@@ -134,7 +134,7 @@
                   <h2>{{ gameItem.metacritic }}</h2>
                   <p>Metacritic</p>
                 </div>
-              </div> -->
+              </div>
             </div>
             <div
               v-if="gameItem.esrb_rating?.name"
@@ -410,7 +410,7 @@ apiMovies(route.params.id)
       max-width: 250px;
       gap: 10px;
 
-      > div {
+      & > div {
         position: relative;
         display: flex;
         justify-content: center;
@@ -437,14 +437,14 @@ apiMovies(route.params.id)
 
           animation: animateDot 2s linear forwards;
 
-          @keyframes animateDot {
+          /* @keyframes animateDot {
             0% {
               transform: rotate(0deg);
             }
             100% {
               transform:  rotate(calc(3.6deg * var(--num)));
             }
-          }
+          } */
 
           &::before {
             content: '';
@@ -461,13 +461,13 @@ apiMovies(route.params.id)
           }
         }
 
-        svg {
+        & svg {
           position: relative;
           width: 110px;
           height: 110px;
           transform: rotate(270deg);
 
-          circle {
+          & circle {
             width: 100%;
             height: 100%;
             fill: transparent;
@@ -486,7 +486,7 @@ apiMovies(route.params.id)
               animation-delay: 2.5s;
             }
 
-            @keyframes fadeIn {
+            /* @keyframes fadeIn {
               0% {
                 opacity: 0;
                 fill: transparent;
@@ -495,7 +495,7 @@ apiMovies(route.params.id)
                 opacity: 1;
                 fill: rgba(39, 41, 63, 0.75);
               }
-            }
+            } */
           }
         }
 
@@ -512,14 +512,14 @@ apiMovies(route.params.id)
           animation-delay: 2.5s;
         }
 
-        h2 {
+        & h2 {
           display: flex;
           justify-content: center;
           align-items: center;
           margin: 0;
         }
 
-        p {
+        & p {
           margin: 0;
         }
       }
@@ -537,6 +537,25 @@ apiMovies(route.params.id)
     display: grid;
     gap: 10px;
     background: rgba(60, 68, 100, 0.7);
+  }
+}
+
+@keyframes animateDot {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform:  rotate(calc(3.6deg * var(--num)));
+  }
+}
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    fill: transparent;
+  }
+  100% {
+    opacity: 1;
+    fill: rgba(39, 41, 63, 0.75);
   }
 }
 
