@@ -25,7 +25,6 @@
 </template>
 
 <script setup>
-import { useRouter } from 'vue-router'
 
 // eslint-disable-next-line
 const props = defineProps({
@@ -34,11 +33,8 @@ const props = defineProps({
     default: () => []
   }
 })
-const router = useRouter()
 function toGameDetails (id) {
-  // params -> query
-  router.push({ name: 'GameDetails', params: { id } })
-  // window.location.reload()
+  navigateTo(`/${id}`)
 }
 
 // const dtFormat = (date) => {
