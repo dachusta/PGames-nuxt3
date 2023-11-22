@@ -212,6 +212,7 @@ const gameSeries = ref([])
 const gameStores = ref([])
 const gameAchievements = ref([])
 const gameMovies = ref([])
+const route = useRoute()
 
 function dtFormat (date) {
   const handler = (d) => d < 10 ? '0' + d : d
