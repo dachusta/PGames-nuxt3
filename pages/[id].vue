@@ -141,8 +141,8 @@
               class="esrb-rating"
             >
               <img
-                src="~/assets/esrb/Mature.png"
-                alt=""
+                :src="`/img/esrb/${gameItem.esrb_rating?.name}.png`"
+                :alt="gameItem.esrb_rating?.name"
               >
             </div>
             <div
