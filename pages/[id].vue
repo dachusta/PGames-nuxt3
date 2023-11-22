@@ -197,18 +197,6 @@
 </template>
 
 <script lang="ts" setup>
-// import { ref, computed, watch } from 'vue'
-// import { useRoute } from 'vue-router'
-
-// import TheSidebar from '@/components/TheSidebar.vue'
-// import VScreenshots from '@/components/GameDetails/VScreenshots.vue'
-// import VStores from '@/components/GameDetails/VStores.vue'
-// import VDescription from '@/components/GameDetails/VDescription.vue'
-// import VAdditions from '@/components/GameDetails/VAdditions.vue'
-// import VGameSeries from '@/components/GameDetails/VGameSeries.vue'
-// import VAchievements from '@/components/GameDetails/VAchievements.vue'
-// import IconTimer from '@/components/icons/IconTimer.vue'
-
 // const props = defineProps({
 //   id: String
 // })
@@ -224,10 +212,6 @@ const gameSeries = ref([])
 const gameStores = ref([])
 const gameAchievements = ref([])
 const gameMovies = ref([])
-const route = useRoute()
-
-// console.log(import(`~/assets/esrb/${gameItem.value.esrb_rating?.name}.png`));
-
 
 function dtFormat (date) {
   const handler = (d) => d < 10 ? '0' + d : d
@@ -315,15 +299,15 @@ watch(
   { deep: true }
 )
 
-// onMounted(
-api(route.params.id)
-apiScreenshots(route.params.id)
-apiAdditions(route.params.id)
-apiSeries(route.params.id)
-apiStores(route.params.id)
-apiAchievements(route.params.id)
-apiMovies(route.params.id)
-// )
+onMounted(() => {
+  api(route.params.id)
+  apiScreenshots(route.params.id)
+  apiAdditions(route.params.id)
+  apiSeries(route.params.id)
+  apiStores(route.params.id)
+  apiAchievements(route.params.id)
+  apiMovies(route.params.id)
+})
 
 </script>
 

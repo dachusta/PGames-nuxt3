@@ -41,7 +41,7 @@
             class="btn-close"
             @click="hideFullScreen()"
           >
-            <IconClose />
+            <IconsIconClose />
           </button>
         </header>
         <main class="main">
@@ -72,8 +72,6 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onUnmounted } from 'vue'
-import IconClose from '@/components/icons/IconClose.vue'
 
 const emit = defineEmits(['isFullScreen'])
 

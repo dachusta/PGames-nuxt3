@@ -32,8 +32,6 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
-
 // eslint-disable-next-line
 const props = defineProps({
   list: {

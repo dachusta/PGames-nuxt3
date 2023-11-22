@@ -24,16 +24,7 @@
 </template>
 
 <script lang="ts" setup>
-  // import { ref, onMounted, watch, toRefs, computed, method } from 'vue'
-  // import { ref, onMounted } from 'vue'
-  // import { useRouter } from 'vue-router'
-  // import GameItem from '@/components/Games/GameItem.vue'
-  // import TheSidebar from '@/components/TheSidebar.vue'
-  // import VPagination from '@/components/VPagination.vue'
-
   // const emit = defineEmits(['change', 'delete'])
-
-  const router = useRouter()
 
   const gameList = ref([])
   // const repositoriesMatchingSearchQuery = computed(() => {
@@ -86,8 +77,6 @@
   api()
 
   function toGameDetails(id) {
-    console.log(router)
-    console.log(navigateTo)
 
     navigateTo(`/${id}`)
 

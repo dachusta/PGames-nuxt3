@@ -109,8 +109,6 @@
 </template>
 
 <script setup>
-import { computed, ref, watch } from 'vue'
-
 // eslint-disable-next-line
 const props = defineProps({
   list: {
