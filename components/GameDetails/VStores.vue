@@ -9,13 +9,14 @@
         :key="store.id"
         :href="store.url"
         class="store"
+        target="_blank"
       >
         <img
           v-if="fileName(store.url) !== 'Some kind of store'"
           class="store__logo"
-          src="~/assets/stores/Steam.png"
+          :src="`/img/stores/${fileName(store.url)}.png`"
           :alt="fileName(store.url)"
-        >
+          >
         <p class="store__text">{{ fileName(store.url) }}</p>
         <a
           class="store__btn"
@@ -27,7 +28,6 @@
 </template>
 
 <script setup>
-// eslint-disable-next-line
 const props = defineProps({
   list: {
     type: Array,
@@ -35,54 +35,28 @@ const props = defineProps({
   }
 })
 
-// function fileName (store) {
-//   const hostname = new URL(store).hostname
-
-//   switch (hostname) {
-//     case 'apps.apple.com':
-//       return 'appstore.png'
-//     case 'store.playstation.com':
-//       return 'playstation.png'
-//     case 'www.microsoft.com':
-//       return 'microsoft.png'
-//     case 'store.steampowered.com':
-//       return 'steam.png'
-//     case 'www.gog.com':
-//       return 'gog.png'
-//     case 'marketplace.xbox.com':
-//       return 'xbox.png'
-//     case 'www.nintendo.com':
-//       return 'nintendo.png'
-//     case 'play.google.com':
-//       return 'googleplay.png'
-//     case 'www.epicgames.com':
-//       return 'epicgames.png'
-//     default:
-//       return null
-//   }
-// }
-
+// разбить на 2 функции (path to file и storeName)
 function fileName (store) {
   const hostname = new URL(store).hostname
 
-  switch (hostname) {
-    case 'apps.apple.com':
+  switch (true) {
+    case hostname.includes('apple'):
       return 'App Store'
-    case 'store.playstation.com':
+    case hostname.includes('playstation'):
       return 'PlayStation'
-    case 'www.microsoft.com':
+    case hostname.includes('microsoft'):
       return 'Microsoft'
-    case 'store.steampowered.com':
+    case hostname.includes('steam'):
       return 'Steam'
-    case 'www.gog.com':
+    case hostname.includes('gog'):
       return 'GOG'
-    case 'marketplace.xbox.com':
+    case hostname.includes('xbox'):
       return 'Xbox'
-    case 'www.nintendo.com':
+    case hostname.includes('nintendo'):
       return 'Nintendo'
-    case 'play.google.com':
+    case hostname.includes('google'):
       return 'Google Play'
-    case 'www.epicgames.com':
+    case hostname.includes('epicgames'):
       return 'Epic Games'
     default:
       return 'Some kind of store'
