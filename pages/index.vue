@@ -71,7 +71,7 @@
     const response = await fetch(url)
     const commits = await response.json()
     // const commits = response.json()
-    console.log(commits)
+    // console.log(commits)
     gameList.value = commits.results
   }
   api()
@@ -85,34 +85,40 @@
 </script>
 
 <style scoped>
-  .page {
-    display: grid;
-    grid-template-rows: auto 1fr auto;
-    overflow: hidden;
-    /* gap: 30px; */
-    /* padding: 30px; */
-    height: 100dvh;
-  }
-  .header {
-    display: flex;
-    /* height: 100px; */
-  }
-  .main {
-    overflow: auto;
-  }
-  .cards {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    gap: 20px;
-    margin: 60px 30px;
-  }
-  .pagination {
-    margin: 30px;
-  }
-  @media (max-width: 1655px) {
-    .cards {
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 30px;
-    }
-  }
+.page {
+  display: grid;
+  grid-template-areas: 
+    "TheHeader"
+    "Main"
+    "Footer";
+  grid-template-rows: auto 1fr auto;
+  overflow: hidden;
+  /* gap: 30px; */
+  /* padding: 30px; */
+  height: 100dvh;
+}
+.header {
+  display: flex;
+  /* height: 100px; */
+}
+.main {
+  grid-area: Main;
+  display: grid;
+  justify-content: center;
+  overflow: auto;
+}
+.cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 20px;
+  margin: 60px 30px;
+  max-width: 1024px;
+  min-width: 1024px;
+}
+.pagination {
+  margin: 30px;
+}
+.footer {
+  grid-area: Footer;
+}
 </style>

@@ -68,7 +68,7 @@ function fileName (store) {
 .stores {
   display: grid;
   align-content: flex-start;
-  gap: 10px;
+  /* gap: 10px; */
   background: rgba(39, 41, 63, 0.75);
   box-shadow: inset 0 0 5px 0px rgba(0, 0, 0, 0.3);
 
@@ -85,7 +85,7 @@ function fileName (store) {
   .stores__list {
     display: grid;
     gap: 10px;
-    padding: 10px 20px;
+    padding: 20px;
     overflow: auto;
 
     .store {

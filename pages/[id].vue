@@ -7,185 +7,190 @@
       <TheHeader class="header" />
 
       <main class="main">
-        <GameDetailsVScreenshots
-          class="screenshots"
-          :list="gameScreenshots.results"
-        />
-        <!-- company -->
-        <div class="details">
+        <div class="content">
           <div class="title">
             {{ gameItem.name }}
           </div>
-          <!-- <img class="main-img" :src="gameItem.background_image" alt=""> -->
-          <GameDetailsVStores
-            v-if="gameStores.results?.length"
-            class="stores"
-            :list="gameStores.results"
+
+          <GameDetailsVScreenshots
+            class="screenshots"
+            :list="gameScreenshots.results"
           />
-          <div class="container--column container--dprug">
-            <div class="container--column">
-              <div class="developers">
-                <div class="developers__title">
-                  Developers:
-                </div>
-                <div
-                  v-for="developer in gameItem.developers"
-                  :key="developer.id"
-                  class="developer"
-                >
-                  {{ developer.name }}
-                </div>
-              </div>
-              <div class="publishers">
-                <div class="publishers__title">
-                  Publishers:
-                </div>
-                <div
-                  v-for="publisher in gameItem.publishers"
-                  :key="publisher.id"
-                  class="publisher"
-                >
-                  {{ publisher.name }}
-                </div>
-              </div>
-            </div>
-            <div class="container--column">
-              <div class="released">
-                <div class="released__title">
-                  Released:
-                </div>
-                <div class="released__date">
-                  {{ released }}
-                </div>
-              </div>
-              <div class="updated">
-                <div class="updated__title">
-                  Updated:
-                </div>
-                <div class="updated__date">
-                  {{ updated }}
-                </div>
-              </div>
-            </div>
-            <div class="genres">
-              <div class="genres__title">
-                Genres:
-              </div>
-              <div
-                v-for="genre in gameItem.genres"
-                :key="genre.id"
-                class="genre"
-              >
-                {{ genre.name }}
-              </div>
-            </div>
-          </div>
-          <div class="container container--rating">
-            <!-- circular progress bar -->
-            <div
-              v-if="ratingPercent"
-              class="rating"
-            >
-              <div
-                class="percent"
-                :style="{'--clr':'#04fc43', '--num': ratingPercent}"
-              >
-                <div class="dot" />
-                <svg>
-                  <circle
-                    cx="50"
-                    cy="50"
-                    r="50"
-                  />
-                  <circle
-                    cx="50"
-                    cy="50"
-                    r="50"
-                  />
-                </svg>
-                <div class="number">
-                  <h2>{{ ratingPercent }}</h2>
-                  <p>Rating</p>
-                </div>
-              </div>
-            </div>
-            <div
-              v-if="gameItem.metacritic"
-              class="metacritic"
-            >
-              <div
-                class="percent"
-                :style="{'--clr':'#04fc43', '--num': gameItem.metacritic}"
-              >
-                <div class="dot" />
-                <svg>
-                  <circle
-                    cx="50"
-                    cy="50"
-                    r="50"
-                  />
-                  <circle
-                    cx="50"
-                    cy="50"
-                    r="50"
-                  />
-                </svg>
-                <div class="number">
-                  <h2>{{ gameItem.metacritic }}</h2>
-                  <p>Metacritic</p>
-                </div>
-              </div>
-            </div>
-            <div
-              v-if="gameItem.esrb_rating?.name"
-              class="esrb-rating"
-            >
-              <img
-                :src="`/img/esrb/${gameItem.esrb_rating?.name}.png`"
-                :alt="gameItem.esrb_rating?.name"
-              >
-            </div>
-            <div
-              v-if="gameItem.playtime"
-              class="playtime"
-            >
-              <iconsIconTimer :time="gameItem.playtime" />
-            </div>
-          </div>
-          <div class="tags">
-            <div class="tags__title">
-              Tags:
-            </div>
-            <div
-              v-for="tag in gameItem.tags"
-              :key="tag.id"
-              class="tag"
-            >
-              {{ tag.name }}
-            </div>
-          </div>
-        </div>
-        <div class="additional">
           <GameDetailsVDescription
-            v-if="gameItem.description_raw?.length"
-            class="description"
-            :text="gameItem.description_raw"
-          />
-          <GameDetailsVAdditions
-            v-if="gameAdditions.results?.length"
-            class="additions"
-            :list="gameAdditions.results"
-          />
-          <GameDetailsVGameSeries
-            v-if="gameSeries.results?.length"
-            class="game-series"
-            :list="gameSeries.results"
-          />
-          <GameDetailsVAchievements
-            v-if="gameAchievements.results?.length"
-            class="achievements"
-            :list="gameAchievements.results"
-          />
+              v-if="gameItem.description_raw?.length"
+              class="description"
+              :text="gameItem.description_raw"
+            />
+          <!-- company -->
+          <div class="sidebar">
+            <!-- <img class="main-img" :src="gameItem.background_image" alt=""> -->
+            <div class="dev-wrapper container--dprug">
+              <div class="dev-container">
+                <div class="developers">
+                  <div class="developers__title">
+                    Developers:
+                  </div>
+                  <div
+                    v-for="developer in gameItem.developers"
+                    :key="developer.id"
+                    class="developer"
+                  >
+                    {{ developer.name }}
+                  </div>
+                </div>
+                <div class="publishers">
+                  <div class="publishers__title">
+                    Publishers:
+                  </div>
+                  <div
+                    v-for="publisher in gameItem.publishers"
+                    :key="publisher.id"
+                    class="publisher"
+                  >
+                    {{ publisher.name }}
+                  </div>
+                </div>
+              </div>
+              <div class="dev-container">
+                <div class="released">
+                  <div class="released__title">
+                    Released:
+                  </div>
+                  <div class="released__date">
+                    {{ released }}
+                  </div>
+                </div>
+                <div class="updated">
+                  <div class="updated__title">
+                    Updated:
+                  </div>
+                  <div class="updated__date">
+                    {{ updated }}
+                  </div>
+                </div>
+              </div>
+              <div class="dev-container">
+                <div class="genres">
+                  <div class="genres__title">
+                    Genres:
+                  </div>
+                  <div
+                    v-for="genre in gameItem.genres"
+                    :key="genre.id"
+                    class="genre"
+                  >
+                    {{ genre.name }}
+                  </div>
+                </div>
+                <div class="tags">
+                <div class="tags__title">
+                  Tags:
+                </div>
+                <div
+                  v-for="tag in gameItem.tags"
+                  :key="tag.id"
+                  class="tag"
+                >
+                  {{ tag.name }}
+                </div>
+              </div>
+              </div>
+            </div>
+            <GameDetailsVStores
+              v-if="gameStores.results?.length"
+              class="stores"
+              :list="gameStores.results"
+            />
+            <div class="rating-wrapper">
+              <!-- circular progress bar -->
+              <div
+                v-if="ratingPercent"
+                class="rating"
+              >
+                <div
+                  class="percent"
+                  :style="{'--clr':'#04fc43', '--num': ratingPercent}"
+                >
+                  <div class="dot" />
+                  <svg>
+                    <circle
+                      cx="50"
+                      cy="50"
+                      r="50"
+                    />
+                    <circle
+                      cx="50"
+                      cy="50"
+                      r="50"
+                    />
+                  </svg>
+                  <div class="number">
+                    <h2>{{ ratingPercent }}</h2>
+                    <p>Rating</p>
+                  </div>
+                </div>
+              </div>
+              <div
+                v-if="gameItem.metacritic"
+                class="metacritic"
+              >
+                <div
+                  class="percent"
+                  :style="{'--clr':'#04fc43', '--num': gameItem.metacritic}"
+                >
+                  <div class="dot" />
+                  <svg>
+                    <circle
+                      cx="50"
+                      cy="50"
+                      r="50"
+                    />
+                    <circle
+                      cx="50"
+                      cy="50"
+                      r="50"
+                    />
+                  </svg>
+                  <div class="number">
+                    <h2>{{ gameItem.metacritic }}</h2>
+                    <p>Metacritic</p>
+                  </div>
+                </div>
+              </div>
+              <div
+                v-if="gameItem.esrb_rating?.name"
+                class="esrb-rating"
+              >
+                <img
+                  :src="`/img/esrb/${gameItem.esrb_rating?.name}.png`"
+                  :alt="gameItem.esrb_rating?.name"
+                >
+              </div>
+              <div
+                v-if="gameItem.playtime"
+                class="playtime"
+              >
+                <iconsIconTimer :time="gameItem.playtime" />
+              </div>
+            </div>
+          </div>
+          <div class="additional">
+            <GameDetailsVAdditions
+              v-if="gameAdditions.results?.length"
+              class="additions"
+              :list="gameAdditions.results"
+            />
+            <GameDetailsVGameSeries
+              v-if="gameSeries.results?.length"
+              class="game-series"
+              :list="gameSeries.results"
+            />
+            <GameDetailsVAchievements
+              v-if="gameAchievements.results?.length"
+              class="achievements"
+              :list="gameAchievements.results"
+            />
+          </div>
         </div>
       </main>
       <footer class="footer">
@@ -316,13 +321,14 @@ onMounted(() => {
 .page {
   display: grid;
   grid-template-areas:
-    "header"
-    "main"
-    "footer";
+    "TheHeader"
+    "Main"
+    "Footer";
   gap: 30px;
   /* padding: 30px; */
   grid-template-rows: min-content 1fr min-content;
   position: relative;
+  z-index: 0;
 }
 .page::after {
   content: "";
@@ -332,69 +338,95 @@ onMounted(() => {
   right: 0;
   top: 0;
   bottom: 0;
-  opacity: 0.7;
-  z-index: 0;
+  opacity: 0.9;
+  z-index: -1;
 }
-.header {
-  grid-area: header;
-  display: flex;
-  justify-content: space-between;
-  z-index: 1;
-}
+/* .header {
+} */
 .main {
-  grid-area: main;
+  grid-area: Main;
   display: grid;
-  grid-template-areas:
-    "screenshots details"
-    "additional additional";
-  grid-template-columns: 640px 1fr;
-  gap: 10px;
-  margin: 0 30px auto;
-  z-index: 1;
+  justify-content: center;
+  
+  /* z-index: 1; */
 
-  .screenshots {
-    grid-area: screenshots;
-    width: 640px;
-  }
-
-  .details {
-    grid-area: details;
+  .content {
     display: grid;
     grid-template-areas:
-      "title title title"
+      "Title Title"
+      "Screenshots Sidebar"
+      "Description Sidebar"
+      "Additional Additional";
+    grid-template-columns: 640px 1fr;
+    grid-template-rows: min-content min-content 1fr min-content;
+    margin: 0 30px auto;
+    gap: 10px;
+    max-width: 1024px;
+    min-width: 1024px;
+
+  }
+
+  .title {
+    grid-area: Title;
+    font-size: 24px;
+    margin: 0;
+    font-weight: 500;
+  }
+
+  .screenshots {
+    grid-area: Screenshots;
+    width: 640px;
+  }
+  .description {
+    grid-area: Description;
+    /* width: 640px; */
+  }
+
+  .sidebar {
+    grid-area: Sidebar;
+    display: flex;
+    flex-direction: column;
+    /* grid-template-areas:
       "stores dprug rating"
       "stores tags tags";
     grid-template-columns: 320px 1fr;
-    grid-template-rows: max-content;
-    gap: 20px;
+    grid-template-rows: max-content; */
     padding: 20px;
+    gap: 20px;
     background: rgba(60, 68, 100, 0.7);
 
-    .title {
-      grid-area: title;
-      font-size: 24px;
-      margin: 0;
-    }
-
     .stores {
-      grid-area: stores;
+      /* grid-area: stores; */
       max-height: 368px;
     }
 
-    .container--dprug {
-      grid-area: dprug;
-      justify-content: space-between;
+    .dev-wrapper {
+      display: grid;
+      /* padding: 20px; */
+      gap: 10px;
+      /* background: rgba(39, 41, 63, 0.75); */
+    }
+    .dev-container {
+      display: grid;
+      gap: 5px;
     }
 
-    .container--rating {
-      grid-area: rating;
+    .container--dprug {
+      /* grid-area: dprug; */
+      /* justify-content: space-between; */
+    }
+
+    .rating-wrapper {
+      /* grid-area: rating; */
       position: relative;
       display: flex;
       align-content: flex-start;
-      justify-content: flex-end;
+      justify-content: center;
       flex-wrap: wrap;
-      max-width: 250px;
+      /* max-width: 250px; */
       gap: 10px;
+      /* padding: 20px; */
+      /* background: rgba(39, 41, 63, 0.75); */
 
       & > div {
         position: relative;
@@ -512,17 +544,17 @@ onMounted(() => {
     }
 
     .tags {
-      grid-area: tags;
+      /* grid-area: tags; */
       max-height: 88px;
       overflow: hidden;
     }
   }
 
   .additional {
-    grid-area: additional;
+    grid-area: Additional;
     display: grid;
     gap: 10px;
-    background: rgba(60, 68, 100, 0.7);
+    /* background: rgba(60, 68, 100, 0.7); */
   }
 }
 
@@ -545,11 +577,11 @@ onMounted(() => {
   }
 }
 
-.container--column {
+/* .container--column {
   display: flex;
   flex-direction: column;
   gap: 5px;
-}
+} */
 
 .developers, .publishers, .genres, .released, .updated, .tags {
   display: flex;
@@ -571,8 +603,10 @@ onMounted(() => {
 }
 
 .footer {
-  grid-area: footer;
+  grid-area: Footer;
+  display: flex;
+  justify-content: center;
   padding: 20px;
-  background: rgba(60, 68, 100, 0.7);
+  background: #27293f;
 }
 </style>

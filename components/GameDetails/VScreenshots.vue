@@ -172,7 +172,7 @@ onUnmounted(() => {
 <style scoped>
 .screenshots {
   position: relative;
-  background: rgba(60, 68, 100, 0.7);
+  background: rgba(39, 41, 63, 0.75);
   user-select: none;
 
   .screenshots__display {

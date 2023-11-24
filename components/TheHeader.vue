@@ -1,7 +1,9 @@
 <template>
   <header class="header">
-    <!-- <div class="logo">
-      PGames
+    <div class="content">
+
+      <!-- <div class="logo">
+        PGames
     </div> -->
     <NuxtLink
         class="logo link"
@@ -22,6 +24,7 @@
     <div class="link">
       search
     </div>
+  </div>
   </header>
 
   <!-- <div class="control-bar">
@@ -53,12 +56,27 @@
 
 <style scoped>
 .header {
+  grid-area: TheHeader;
   display: flex;
-  justify-content: space-between;
-  padding: 30px;
-  gap: 10px;
+  justify-content: center;
+  /* justify-content: space-between; */
+  /* padding: 30px; */
+  height: 70px;
+  /* gap: 10px; */
   background: #27293f;
-  z-index: 1;
+  /* z-index: 1; */
+
+  .content {
+    display: flex;
+    /* justify-content: space-between; */
+    align-items: center;
+    width: 100%;
+    margin: 0 30px;
+    gap: 10px;
+    /* background: #27293f; */
+    /* z-index: 1; */
+    max-width: 1024px;
+  }
 
   .logo {
     font-weight: bold;

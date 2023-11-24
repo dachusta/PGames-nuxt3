@@ -23,6 +23,7 @@ const props = defineProps({
 <style  scoped>
 .description {
   display: grid;
+  align-content: start;
   gap: 10px;
   padding: 15px 30px;
   background: rgba(39, 41, 63, 0.75);
