@@ -104,6 +104,7 @@
 .main {
   grid-area: Main;
   display: grid;
+  grid-template-rows: 1fr min-content;
   justify-content: center;
   overflow: auto;
 }
