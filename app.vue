@@ -1,10 +1,10 @@
 <template>
-  <!-- <div> -->
+  <div id="pg-app">
     <!-- <NuxtWelcome /> -->
     <NuxtLayout>
       <NuxtPage />
     </NuxtLayout>
-  <!-- </div> -->
+  </div>
 </template>
 
 <style>
@@ -36,6 +36,10 @@ body {
   background: #1C1C2C;
   color: #CBDBEE;
   min-height: 100vh;
+}
+
+#pg-app {
+  display: grid;
 }
 
 /* .wrapper {
