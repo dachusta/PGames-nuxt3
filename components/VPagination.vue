@@ -1,21 +1,25 @@
 <template>
   <div class="pagination">
-    <!-- :disabled="currentPage <= 1" -->
     <button
       class="btn-page previous"
+      :disabled="currentPage <= 1"
       @click="gotoPage(currentPage - 1)"
     >
-      prev
+      <img
+        src="/svg/arrow-left.svg"
+        height="14"
+        width="14"
+      />
     </button>
 
-    <button
+    <!-- <button
       class="btn-page"
       :class="{ active: currentPage }"
     >
       {{ currentPage }}
-    </button>
+    </button> -->
 
-    <!-- <button
+    <button
       v-if="orderPage(1) >= 1"
       class="btn-page"
       :class="{ active: currentPage === orderPage(1) }"
@@ -84,14 +88,18 @@
       @click="gotoPage(orderPage(7))"
     >
       {{ orderPage(7) }}
-    </button> -->
+    </button>
 
-    <!-- :disabled="totalPage <= currentPage" -->
     <button
       class="btn-page next"
+      :disabled="pageCount <= currentPage"
       @click="gotoPage(currentPage + 1)"
     >
-      next
+      <img
+        src="/svg/arrow-right.svg"
+        height="14"
+        width="14"
+      />
     </button>
 
     <!-- <div class="pagination__show">
@@ -117,6 +125,18 @@ const props = defineProps({
       return []
     }
   },
+  currentPage: {
+    type: Number,
+    default: 1
+  },
+  gameCount: {
+    type: Number,
+    default: 1
+  },
+  pageSize: {
+    type: Number,
+    default: 1
+  },
   showList: {
     type: Array,
     default () {
@@ -124,13 +144,16 @@ const props = defineProps({
     }
   }
 })
-
+const pageCount = computed(() => {
+  return Math.ceil(props.gameCount / props.pageSize) || 0
+})
+console.log(pageCount.value);
 // eslint-disable-next-line
-const emit = defineEmits(['visibleList', 'setCurrentPage'])
+const emit = defineEmits(['visibleList', 'update:currentPage', 'setCurrentPage'])
 
-const show = ref(25)
+// const show = ref(25)
 
-const currentPage = ref(1)
+// const currentPage = ref(1)
 
 // const totalItems = computed(() => props.list?.length || 0)
 
@@ -140,76 +163,77 @@ const currentPage = ref(1)
 //     : 0
 // )
 
-const visibleList = computed(() => {
-  if (props.list?.length) {
-    const begin = show.value * currentPage.value - show.value
-    const end = show.value * currentPage.value
-    const visibleList = props.list.slice(begin, end)
+// const visibleList = computed(() => {
+//   if (props.list?.length) {
+//     const begin = show.value * currentPage - show.value
+//     const end = show.value * currentPage
+//     const visibleList = props.list.slice(begin, end)
 
-    return visibleList
-  } else return 0
-})
+//     return visibleList
+//   } else return 0
+// })
 
-watch(() => props.list, () => {
-  emit('visibleList', visibleList)
-})
-watch(() => currentPage.value, () => {
-  emit('visibleList', visibleList)
-  console.log(currentPage.value)
-  emit('setCurrentPage', currentPage.value)
-})
-watch(() => show, () => {
-  emit('visibleList', visibleList)
-})
+// watch(() => props.list, () => {
+//   emit('visibleList', visibleList)
+// })
+// watch(() => currentPage, () => {
+//   emit('visibleList', visibleList)
+//   console.log(currentPage)
+//   emit('setCurrentPage', currentPage)
+// })
+// watch(() => show, () => {
+//   emit('visibleList', visibleList)
+// })
 
 // const selectedShow = (value) => {
 //   show.value = value
 // }
 
 // Order to number page
-// const orderPage = (index) => {
-//   switch (index) {
-//     case 1:
-//       return 1
-//     case 2:
-//       if (
-//         (currentPage.value <= 3 && totalPage.value >= 2) ||
-//         (totalPage.value <= 7 && totalPage.value >= 2)
-//       ) return 2
-//       else if (currentPage.value <= 1) return currentPage.value
-//       else return '...'
-//     case 3:
-//       if (
-//         (currentPage.value <= 3 && totalPage.value >= 3) ||
-//         (totalPage.value <= 7 && totalPage.value >= 3)
-//       ) return 3
-//       else if (totalPage.value - 4 >= currentPage.value) return currentPage.value
-//       else return totalPage.value - 4
-//     case 4:
-//       if (
-//         (currentPage.value <= 3 && totalPage.value >= 4) ||
-//         (totalPage.value <= 7 && totalPage.value >= 4)
-//       ) return 4
-//       else if (totalPage.value - 4 >= currentPage.value) return currentPage.value + 1
-//       else return totalPage.value - 3
-//     case 5:
-//       if (
-//         (currentPage.value <= 3 && totalPage.value >= 5) ||
-//         (totalPage.value <= 7 && totalPage.value >= 5)
-//       ) return 5
-//       else if (totalPage.value - 4 >= currentPage.value) return currentPage.value + 2
-//       else return totalPage.value - 2
-//     case 6:
-//       if (totalPage.value - 4 <= currentPage.value || totalPage.value <= 7) return totalPage.value - 1
-//       else return '...'
-//     case 7:
-//       return totalPage.value
-//     default:
-//       return 1
-//   }
-// }
+const orderPage = (index) => {
+  switch (index) {
+    case 1:
+      return 1
+    case 2:
+      if (
+        (props.currentPage <= 3 && pageCount.value >= 2) ||
+        (pageCount.value <= 7 && pageCount.value >= 2)
+      ) return 2
+      else if (props.currentPage <= 1) return props.currentPage
+      else return '...'
+    case 3:
+      if (
+        (props.currentPage <= 3 && pageCount.value >= 3) ||
+        (pageCount.value <= 7 && pageCount.value >= 3)
+      ) return 3
+      else if (pageCount.value - 4 >= props.currentPage) return props.currentPage
+      else return pageCount.value - 4
+    case 4:
+      if (
+        (props.currentPage <= 3 && pageCount.value >= 4) ||
+        (pageCount.value <= 7 && pageCount.value >= 4)
+      ) return 4
+      else if (pageCount.value - 4 >= props.currentPage) return props.currentPage + 1
+      else return pageCount.value - 3
+    case 5:
+      if (
+        (props.currentPage <= 3 && pageCount.value >= 5) ||
+        (pageCount.value <= 7 && pageCount.value >= 5)
+      ) return 5
+      else if (pageCount.value - 4 >= props.currentPage) return props.currentPage + 2
+      else return pageCount.value - 2
+    case 6:
+      if (pageCount.value - 4 <= props.currentPage || pageCount.value <= 7) return pageCount.value - 1
+      else return '...'
+    case 7:
+      return pageCount.value
+    default:
+      return 1
+  }
+}
 const gotoPage = (numberPage) => {
-  currentPage.value = numberPage
+  emit('update:currentPage', numberPage)
+  // currentPage.value = numberPage
 }
 </script>
 
@@ -226,22 +250,42 @@ const gotoPage = (numberPage) => {
   box-shadow: 1px 1px 3px 0px rgba(0, 0, 0, 0.15);
 }
 .btn-page {
-  width: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* width: 40px; */
+  min-width: 40px;
   height: 30px;
-  padding: 0;
+  padding: 0 10px;
   border: 1px solid #000000;
+  border: none;
+  border-radius: 5px;
   background: #1C1C2C;
   color: #ffffff;
   cursor: pointer;
+  /* transition: box-shadow 0.2s ease; */
+  transition: transform .15s ease, box-shadow .2s ease;
 
+  &:hover {
+    /* background: #63a3ec; */
+    /* color: #ffffff; */
+    /* box-shadow: 0px 1px 7px 1px rgba(99, 163, 236, 0.75); */
+    transform: scale(105%);
+    box-shadow: 0px 0px 5px 1px rgba(99, 163, 236, 0.75);
+  }
+  
   &.active {
     background: #63a3ec;
     color: #ffffff;
+    transform: none;
+    box-shadow: none;
   }
 
   &:disabled {
     cursor: default;
     opacity: 0.5;
+    transform: none;
+    box-shadow: none;
   }
 }
 
@@ -249,7 +293,7 @@ const gotoPage = (numberPage) => {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
+  /* width: 40px; */
   height: 30px;
   font-size: 18px;
   letter-spacing: 3px;

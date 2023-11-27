@@ -16,7 +16,12 @@
         />
       </div>
 
-      <VPagination class="pagination" @set-current-page="setCurrentPage" />
+      <VPagination
+        class="pagination"
+        v-model:currentPage="page"
+        :gameCount="gameCount"
+        :pageSize="pageSize"
+      />
     </main>
 
     <footer class="footer"></footer>
@@ -35,14 +40,47 @@
 
   // const currentPage = ref(1)
 
-  const setCurrentPage = (page) => {
-    api({ page })
-  }
+  const route = useRoute()
+
+// When accessing /posts/1, route.params.id will be 1
+  console.log(route.query)
+
+  const page = ref(1)
+  const pageSize = ref(21)
+  const gameCount = ref(0)
+
+  watch(
+    () => page.value,
+    () => {
+      navigateTo({
+        query: {
+          page: page.value
+        }
+      })
+    }
+  )
+
+  watch(
+    () => route.query.page,
+    () => {
+      api({
+        pageSize: pageSize.value,
+        page: route.query?.page
+      })
+    }
+  )
+
+
+  // const setCurrentPage = (page) => {
+  //   const pageSize = pageSize.value
+  //   const page = page.value
+  //   api({ pageSize, page })
+  // }
 
   // const queryParam = {
   //   page: null,
-  //   pageSize: null,
-  //   search: null
+  //   pageSize: 21,
+  //   // search: null
   // }
 
   // const possibleNumberOfGames = ref(812156)
@@ -72,9 +110,18 @@
     const commits = await response.json()
     // const commits = response.json()
     // console.log(commits)
+    gameCount.value = commits.count
     gameList.value = commits.results
   }
-  api()
+  onMounted(() => {
+    if (route.query?.page) {
+      page.value = +route.query?.page
+    }
+    api({
+      pageSize: pageSize.value,
+      page: page.value
+    })
+  })
 
   function toGameDetails(id) {
 
