@@ -12,7 +12,6 @@
         target="_blank"
       >
         <img
-          v-if="fileName(store.url) !== 'Some kind of store'"
           class="store__logo"
           :src="`/img/stores/${fileName(store.url)}.png`"
           :alt="fileName(store.url)"
