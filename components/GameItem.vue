@@ -99,7 +99,7 @@ function ratingBG (params) {
 .row {
   display: flex;
   justify-content: space-between;
-  padding: 0px 5px;
+  padding: 0px 10px;
 }
 .game-item .name {
   font-size: 18px;
@@ -118,7 +118,7 @@ function ratingBG (params) {
   justify-content: flex-end;
   flex-wrap: wrap;
   gap: 5px;
-  margin: 5px;
+  margin: 5px 10px;
   align-self: flex-end;
 }
 .platform-item {
