@@ -23,8 +23,6 @@
         :pageSize="pageSize"
       />
     </main>
-
-    <footer class="footer"></footer>
   </div>
 </template>
 
@@ -136,8 +134,7 @@
   display: grid;
   grid-template-areas: 
     "TheHeader"
-    "Main"
-    "Footer";
+    "Main";
   grid-template-rows: auto 1fr auto;
   overflow: hidden;
   /* gap: 30px; */
@@ -165,8 +162,5 @@
 }
 .pagination {
   margin: 30px;
-}
-.footer {
-  grid-area: Footer;
 }
 </style>
