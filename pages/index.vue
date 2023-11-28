@@ -3,25 +3,29 @@
     <TheHeader class="header" />
 
     <main class="main">
-      <div class="cards">
-        <GameItem
-          v-for="game in gameList"
-          :key="game.id"
-          class="card game-item"
-          :screenshots="game.short_screenshots"
-          :name="game.name"
-          :rating="game.rating"
-          :platforms="game.parent_platforms"
-          @click="toGameDetails(game.id)"
-        />
-      </div>
+      <Loader v-if="!gameList.length"/>
 
-      <VPagination
-        class="pagination"
-        v-model:currentPage="page"
-        :gameCount="gameCount"
-        :pageSize="pageSize"
-      />
+      <template v-else>
+        <div class="cards">
+          <GameItem
+            v-for="game in gameList"
+            :key="game.id"
+            class="card game-item"
+            :screenshots="game.short_screenshots"
+            :name="game.name"
+            :rating="game.rating"
+            :platforms="game.parent_platforms"
+            @click="toGameDetails(game.id)"
+          />
+        </div>
+  
+        <VPagination
+          class="pagination"
+          v-model:currentPage="page"
+          :gameCount="gameCount"
+          :pageSize="pageSize"
+        />
+      </template>
     </main>
   </div>
 </template>

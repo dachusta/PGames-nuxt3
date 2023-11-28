@@ -7,7 +7,9 @@
       <TheHeader class="header" />
 
       <main class="main">
-        <div class="content">
+        <Loader v-if="!gameItem.name" />
+
+        <div v-else class="content">
           <div class="title">
             {{ gameItem.name }}
           </div>
