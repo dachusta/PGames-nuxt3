@@ -117,7 +117,6 @@
 </template>
 
 <script setup>
-// eslint-disable-next-line
 const props = defineProps({
   list: {
     type: Array,
@@ -147,7 +146,6 @@ const props = defineProps({
 const pageCount = computed(() => {
   return Math.ceil(props.gameCount / props.pageSize) || 0
 })
-console.log(pageCount.value);
 // eslint-disable-next-line
 const emit = defineEmits(['visibleList', 'update:currentPage', 'setCurrentPage'])
 

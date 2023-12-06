@@ -5,7 +5,7 @@
     </div>
     <div class="stores__list">
       <a
-        v-for="store in props.list"
+        v-for="store in stores?.results"
         :key="store.id"
         :href="store.url"
         class="store"
@@ -17,10 +17,10 @@
           :alt="fileName(store.url)"
           >
         <p class="store__text">{{ fileName(store.url) }}</p>
-        <a
+        <span
           class="store__btn"
           :href="store.url"
-        >Buy</a>
+        >Buy</span>
       </a>
     </div>
   </div>
@@ -28,11 +28,17 @@
 
 <script setup>
 const props = defineProps({
-  list: {
-    type: Array,
-    default: () => []
-  }
+  // list: {
+  //   type: Array,
+  //   default: () => []
+  // },
+  gameId: {
+    type: String,
+    required: true
+  },
 })
+
+const { data: stores } = await useLazyFetch(`/api/games/${props.gameId}/stores`)
 
 // разбить на 2 функции (path to file и storeName)
 function fileName (store) {
@@ -67,7 +73,6 @@ function fileName (store) {
 .stores {
   display: grid;
   align-content: flex-start;
-  /* gap: 10px; */
   background: rgba(39, 41, 63, 0.75);
   box-shadow: inset 0 0 5px 0px rgba(0, 0, 0, 0.3);
 

@@ -4,7 +4,7 @@
       Additions:
     </div>
     <a
-      v-for="addition in props.list"
+      v-for="addition in additions?.results"
       :key="addition.id"
       class="addition"
       @click="toGameDetails(addition.id)"
@@ -28,11 +28,18 @@
 
 // eslint-disable-next-line
 const props = defineProps({
-  list: {
-    type: Array,
-    default: () => []
-  }
+  // list: {
+  //   type: Array,
+  //   default: () => []
+  // },
+  gameId: {
+    type: String,
+    required: true
+  },
 })
+
+const { data: additions } = await useLazyFetch(`/api/games/${props.gameId}/additions`)
+
 function toGameDetails (id) {
   navigateTo(`/${id}`)
 }

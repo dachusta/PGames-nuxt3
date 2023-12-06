@@ -15,7 +15,7 @@
       @mouseleave="endScroll"
     >
       <img
-        v-for="screenshotItem in props.list"
+        v-for="screenshotItem in screenshots?.results"
         :key="screenshotItem.id"
         class="screenshots__item"
         :class="{ selected: screenshot === screenshotItem.image }"
@@ -41,7 +41,7 @@
             class="btn-close"
             @click="hideFullScreen()"
           >
-            <IconsIconClose />
+            <IconClose />
           </button>
         </header>
         <main class="main">
@@ -58,7 +58,7 @@
           >
             Prev
           </button>
-          {{ screenIndex + 1 }} of {{ list.length }} screenshots
+          {{ screenIndex + 1 }} of {{ screenshots?.results.length }} screenshots
           <button
             class="btn btn-next"
             @click="nextScreen"
@@ -76,12 +76,18 @@
 const emit = defineEmits(['isFullScreen'])
 
 const props = defineProps({
-  list: {
-    type: Array,
-    required: true,
-    default: () => []
-  }
+  // list: {
+  //   type: Array,
+  //   required: true,
+  //   default: () => []
+  // },
+  gameId: {
+    type: String,
+    required: true
+  },
 })
+
+const { data: screenshots } = await useLazyFetch(`/api/games/${props.gameId}/screenshots`)
 
 const selectedScreenshot = ref(null)
 
@@ -92,7 +98,7 @@ function setScreenshot (src) {
 const screenshot = computed(() => {
   return selectedScreenshot.value
     ? selectedScreenshot.value
-    : props.list[0]?.image
+    : screenshots.value?.results[0]?.image
 })
 
 //

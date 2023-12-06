@@ -1,39 +1,36 @@
 <template>
-    <div
-      class="page"
-      :style="{ background: `no-repeat center url(${gameItem.background_image}) fixed` }"
-      style="background-size: cover;"
-    >
-      <TheHeader class="header" />
-
-      <main class="main">
-        <Loader v-if="!gameItem.name" />
+      <main
+        class="main"
+        :style="{ background: `no-repeat center url(${game?.background_image}) fixed` }"
+        style="background-size: cover;"
+      >
+        <Loader v-if="pending" />
 
         <div v-else class="content">
           <div class="title">
-            {{ gameItem.name }}
+            {{ game.name }}
           </div>
 
-          <GameDetailsVScreenshots
+          <GameScreenshots
             class="screenshots"
-            :list="gameScreenshots.results"
+            :gameId="id"
           />
-          <GameDetailsVDescription
-              v-if="gameItem.description_raw?.length"
+          <GameDescription
+              v-if="game.description_raw?.length"
               class="description"
-              :text="gameItem.description_raw"
+              :text="game.description_raw"
             />
           <!-- company -->
           <div class="sidebar">
-            <!-- <img class="main-img" :src="gameItem.background_image" alt=""> -->
-            <div class="dev-wrapper container--dprug">
+            <!-- <img class="main-img" :src="game.background_image" alt=""> -->
+            <div class="dev-wrapper">
               <div class="dev-container">
                 <div class="developers">
                   <div class="developers__title">
                     Developers:
                   </div>
                   <div
-                    v-for="developer in gameItem.developers"
+                    v-for="developer in game.developers"
                     :key="developer.id"
                     class="developer"
                   >
@@ -45,7 +42,7 @@
                     Publishers:
                   </div>
                   <div
-                    v-for="publisher in gameItem.publishers"
+                    v-for="publisher in game.publishers"
                     :key="publisher.id"
                     class="publisher"
                   >
@@ -77,7 +74,7 @@
                     Genres:
                   </div>
                   <div
-                    v-for="genre in gameItem.genres"
+                    v-for="genre in game.genres"
                     :key="genre.id"
                     class="genre"
                   >
@@ -89,7 +86,7 @@
                   Tags:
                 </div>
                 <div
-                  v-for="tag in gameItem.tags"
+                  v-for="tag in game.tags"
                   :key="tag.id"
                   class="tag"
                 >
@@ -98,10 +95,9 @@
               </div>
               </div>
             </div>
-            <GameDetailsVStores
-              v-if="gameStores.results?.length"
+            <GameStores
               class="stores"
-              :list="gameStores.results"
+              :gameId="id"
             />
             <div class="rating-wrapper">
               <!-- circular progress bar -->
@@ -133,12 +129,12 @@
                 </div>
               </div>
               <div
-                v-if="gameItem.metacritic"
+                v-if="game.metacritic"
                 class="metacritic"
               >
                 <div
                   class="percent"
-                  :style="{'--clr':'#04fc43', '--num': gameItem.metacritic}"
+                  :style="{'--clr':'#04fc43', '--num': game.metacritic}"
                 >
                   <div class="dot" />
                   <svg>
@@ -154,72 +150,56 @@
                     />
                   </svg>
                   <div class="number">
-                    <h2>{{ gameItem.metacritic }}</h2>
+                    <h2>{{ game.metacritic }}</h2>
                     <p>Metacritic</p>
                   </div>
                 </div>
               </div>
               <div
-                v-if="gameItem.esrb_rating?.name"
+                v-if="game.esrb_rating?.name"
                 class="esrb-rating"
               >
                 <img
-                  :src="`/img/esrb/${gameItem.esrb_rating?.name}.png`"
-                  :alt="gameItem.esrb_rating?.name"
+                  :src="`/img/esrb/${game.esrb_rating?.name}.png`"
+                  :alt="game.esrb_rating?.name"
                 >
               </div>
               <div
-                v-if="gameItem.playtime"
+                v-if="game.playtime"
                 class="playtime"
               >
-                <iconsIconTimer :time="gameItem.playtime" />
+                <IconTimer :time="game.playtime" />
               </div>
             </div>
           </div>
           <div class="additional">
-            <GameDetailsVAdditions
-              v-if="gameAdditions.results?.length"
+            <LazyGameAdditions
               class="additions"
-              :list="gameAdditions.results"
+              :gameId="id"
             />
-            <GameDetailsVGameSeries
-              v-if="gameSeries.results?.length"
+            <LazyGameSeries
+              v-if="game?.id"
               class="game-series"
-              :list="gameSeries.results"
+              :gameId="id"
             />
-            <GameDetailsVAchievements
-              v-if="gameAchievements.results?.length"
+            <LazyGameAchievements
+              v-if="game?.id"
               class="achievements"
-              :list="gameAchievements.results"
+              :gameId="id"
             />
           </div>
         </div>
       </main>
-      <footer class="footer">
-        <!-- <div class="name">{{ gameItem.added }}</div> -->
-        <!-- <div class="name">{{ gameItem.added_by_status }}</div> -->
-        Made with love
-      </footer>
-    </div>
 </template>
 
 <script lang="ts" setup>
-// const props = defineProps({
-//   id: String
-// })
+// const isLoading = useState('isLoading')
 
-const ratingPercent = computed(() => Math.round((100 / 5) * gameItem.value.rating))
-watch(() => ratingPercent, (first) => {
-  // console.log(first)
-})
-const gameItem = ref({})
-const gameScreenshots = ref([])
-const gameAdditions = ref([])
-const gameSeries = ref([])
-const gameStores = ref([])
-const gameAchievements = ref([])
-const gameMovies = ref([])
 const route = useRoute()
+
+const id = route.params.id
+
+const ratingPercent = computed(() => Math.round((100 / 5) * game.value.rating))
 
 function dtFormat (date) {
   const handler = (d) => d < 10 ? '0' + d : d
@@ -231,126 +211,44 @@ function dtFormat (date) {
 
   return day + '.' + month + '.' + year
 }
-const released = computed(() => dtFormat(gameItem.value.released))
-const updated = computed(() => dtFormat(gameItem.value.updated))
 
-// console.log(route.params.id)
+const released = computed(() => dtFormat(game.value.released))
+const updated = computed(() => dtFormat(game.value.updated))
 
-async function api (id = 3498) {
-  const url = `https://api.rawg.io/api/games/${id}?key=8f4899e2e65a42e58807bc9bbec35cca`
-  const response = await fetch(url)
-  const commits = await response.json()
-  gameItem.value = commits
-  // console.log('gameItem', gameItem.value)
-}
-async function apiScreenshots (id = 3498) {
-  const url = `https://api.rawg.io/api/games/${id}/screenshots?key=8f4899e2e65a42e58807bc9bbec35cca`
-  const response = await fetch(url)
-  const commits = await response.json()
-  gameScreenshots.value = commits
-  // console.log('screenshots', gameScreenshots.value.results)
-}
-async function apiAdditions (id = 3498) {
-  //  список DLC для игры, GOTY и других выпусков, сопутствующих приложений и т. д.
-  const url = `https://api.rawg.io/api/games/${id}/additions?key=8f4899e2e65a42e58807bc9bbec35cca`
-  const response = await fetch(url)
-  const commits = await response.json()
-  gameAdditions.value = commits
-  // console.log('additions', gameAdditions.value.results)
-}
-async function apiSeries (id = 3498) {
-  //  список игр, которые являются частью той же серии.
-  const url = `https://api.rawg.io/api/games/${id}/game-series?key=8f4899e2e65a42e58807bc9bbec35cca`
-  const response = await fetch(url)
-  const commits = await response.json()
-  gameSeries.value = commits
-  // console.log('game-series', gameSeries.value.results)
-}
-async function apiStores (id = 3498) {
-  //  ссылки на магазины, продающие игру.
-  const url = `https://api.rawg.io/api/games/${id}/stores?key=8f4899e2e65a42e58807bc9bbec35cca`
-  const response = await fetch(url)
-  const commits = await response.json()
-  gameStores.value = commits
-  // console.log('stores', gameStores.value.results)
-}
-async function apiAchievements (id = 3498) {
-  //  список игровых достижений.
-  const url = `https://api.rawg.io/api/games/${id}/achievements?key=8f4899e2e65a42e58807bc9bbec35cca`
-  const response = await fetch(url)
-  const commits = await response.json()
-  gameAchievements.value = commits
-  // console.log('achievements', gameAchievements.value.results)
-}
-async function apiMovies (id = 3498) {
-  //  список игровых трейлеров.
-  const url = `https://api.rawg.io/api/games/${id}/movies?key=8f4899e2e65a42e58807bc9bbec35cca`
-  const response = await fetch(url)
-  const commits = await response.json()
-  gameMovies.value = commits
-  // console.log('movies', gameMovies.value.results)
-}
+const { data: game, pending } = await useLazyFetch(`/api/games/${id}`)
 
-watch(
-  () => route.params.id,
-  () => {
-    api(route.params.id)
-    apiScreenshots(route.params.id)
-    apiAdditions(route.params.id)
-    apiSeries(route.params.id)
-    apiStores(route.params.id)
-    apiAchievements(route.params.id)
-    apiMovies(route.params.id)
+// const { data: screenshots } = await useLazyFetch(`/api/games/${id}/screenshots`)
 
-    window.scrollTo(0, 0)
-  },
-  { deep: true }
-)
+// const { data: additions } = await useFetch(`/api/games/${id}/additions`)
 
-onMounted(() => {
-  api(route.params.id)
-  apiScreenshots(route.params.id)
-  apiAdditions(route.params.id)
-  apiSeries(route.params.id)
-  apiStores(route.params.id)
-  apiAchievements(route.params.id)
-  apiMovies(route.params.id)
-})
+// const { data: series } = await useFetch(`/api/games/${id}/game-series`)
+
+// const { data: stores } = await useLazyFetch(`/api/games/${id}/stores`)
+
+// const { data: achievements } = await useFetch(`/api/games/${id}/achievements`)
 
 </script>
 
 <style scoped>
-.page {
-  display: grid;
-  grid-template-areas:
-    "TheHeader"
-    "Main"
-    "Footer";
-  gap: 30px;
-  /* padding: 30px; */
-  grid-template-rows: min-content 1fr min-content;
-  position: relative;
-  z-index: 0;
-}
-.page::after {
-  content: "";
-  background: #1C1C2C;
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  opacity: 0.9;
-  z-index: -1;
-}
-/* .header {
-} */
 .main {
   grid-area: Main;
   display: grid;
   justify-content: center;
-  
-  /* z-index: 1; */
+  height: 100%;
+  position: relative;
+  z-index: 0;
+
+  &::after {
+    content: "";
+    background: #1C1C2C;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    opacity: 0.9;
+    z-index: -1;
+  }
 
   .content {
     display: grid;
@@ -361,6 +259,7 @@ onMounted(() => {
       "Additional Additional";
     grid-template-columns: 640px 1fr;
     grid-template-rows: min-content min-content 1fr min-content;
+    padding: 30px 0;
     margin: 0 30px auto;
     gap: 10px;
     max-width: 1024px;
@@ -381,54 +280,36 @@ onMounted(() => {
   }
   .description {
     grid-area: Description;
-    /* width: 640px; */
   }
 
   .sidebar {
     grid-area: Sidebar;
     display: flex;
     flex-direction: column;
-    /* grid-template-areas:
-      "stores dprug rating"
-      "stores tags tags";
-    grid-template-columns: 320px 1fr;
-    grid-template-rows: max-content; */
     padding: 20px;
     gap: 20px;
     background: rgba(60, 68, 100, 0.7);
 
     .stores {
-      /* grid-area: stores; */
       max-height: 368px;
     }
 
     .dev-wrapper {
       display: grid;
-      /* padding: 20px; */
       gap: 10px;
-      /* background: rgba(39, 41, 63, 0.75); */
     }
     .dev-container {
       display: grid;
       gap: 5px;
     }
 
-    .container--dprug {
-      /* grid-area: dprug; */
-      /* justify-content: space-between; */
-    }
-
     .rating-wrapper {
-      /* grid-area: rating; */
       position: relative;
       display: flex;
       align-content: flex-start;
       justify-content: center;
       flex-wrap: wrap;
-      /* max-width: 250px; */
       gap: 10px;
-      /* padding: 20px; */
-      /* background: rgba(39, 41, 63, 0.75); */
 
       & > div {
         position: relative;
@@ -546,7 +427,6 @@ onMounted(() => {
     }
 
     .tags {
-      /* grid-area: tags; */
       max-height: 88px;
       overflow: hidden;
     }
@@ -556,7 +436,6 @@ onMounted(() => {
     grid-area: Additional;
     display: grid;
     gap: 10px;
-    /* background: rgba(60, 68, 100, 0.7); */
   }
 }
 
@@ -579,12 +458,6 @@ onMounted(() => {
   }
 }
 
-/* .container--column {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-} */
-
 .developers, .publishers, .genres, .released, .updated, .tags {
   display: flex;
   flex-wrap: wrap;
@@ -602,13 +475,5 @@ onMounted(() => {
 .developer, .publisher, .genre, .tag {
   background: #1C1C2C;
   padding: 3px 5px;
-}
-
-.footer {
-  grid-area: Footer;
-  display: flex;
-  justify-content: center;
-  padding: 20px;
-  background: #27293f;
 }
 </style>

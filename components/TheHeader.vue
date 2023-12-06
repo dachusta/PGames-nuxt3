@@ -34,7 +34,6 @@
 
 <style scoped>
 .header {
-  grid-area: TheHeader;
   display: flex;
   justify-content: center;
   height: 70px;

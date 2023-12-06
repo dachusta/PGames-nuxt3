@@ -11,11 +11,11 @@
       @mouseup="endScroll"
       @mouseleave="endScroll"
     >
-      <div
-        v-for="series in props.list"
+      <NuxtLink
+        v-for="series in series?.results"
         :key="series.id"
         class="game"
-        @click="toGameDetails(series.id)"
+        :to="`/${series.id}`"
       >
         <img
           class="game__img"
@@ -26,7 +26,7 @@
         <div class="game__name">
           {{ series.name }}
         </div>
-      </div>
+      </NuxtLink>
     </div>
   </div>
 </template>
@@ -34,14 +34,20 @@
 <script setup>
 // eslint-disable-next-line
 const props = defineProps({
-  list: {
-    type: Array,
-    default: () => []
-  }
+  // list: {
+  //   type: Array,
+  //   default: () => []
+  // }
+  gameId: {
+    type: String,
+    required: true
+  },
 })
-function toGameDetails (id) {
-  navigateTo(`/${id}`)
-}
+// function toGameDetails (id) {
+//   navigateTo(`/${id}`)
+// }
+
+const { data: series } = await useLazyFetch(`/api/games/${props.gameId}/game-series`)
 
 const gameSeriesListEl = ref(null)
 
@@ -94,6 +100,8 @@ function endScroll () {
     max-width: 256px;
     border-radius: 5px;
     background: #3C4464;
+    color: inherit;
+    text-decoration: none;
     cursor: pointer;
     transition: transform 0.15s ease, box-shadow 0.2s ease;
 

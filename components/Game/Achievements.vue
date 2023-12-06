@@ -4,7 +4,7 @@
       Achievements:
     </div>
     <div
-      v-for="achievement in props.list"
+      v-for="achievement in achievements?.results"
       :key="achievement.id"
       class="achievement"
     >
@@ -31,11 +31,18 @@
 <script setup>
 // eslint-disable-next-line
 const props = defineProps({
-  list: {
-    type: Array,
-    default: () => []
-  }
+  // list: {
+  //   type: Array,
+  //   default: () => []
+  // },
+  gameId: {
+    type: String,
+    required: true
+  },
 })
+
+const { data: achievements } = await useLazyFetch(`/api/games/${props.gameId}/achievements`)
+
 
 </script>
 

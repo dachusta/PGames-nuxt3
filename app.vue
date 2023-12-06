@@ -1,8 +1,13 @@
 <template>
   <div id="pg-app">
-    <!-- <NuxtWelcome /> -->
     <NuxtLayout>
+      <TheHeader class="header" />
+
       <NuxtPage />
+
+      <footer class="footer">
+        Made with love
+      </footer>
     </NuxtLayout>
   </div>
 </template>
@@ -35,18 +40,41 @@ body {
   color: #2c3e50;
   background: #1C1C2C;
   color: #CBDBEE;
-  min-height: 100vh;
+  height: 100vh;
 }
 
 #pg-app {
   display: grid;
+  grid-template-areas:
+    "TheHeader"
+    "Main"
+    "Footer";
+  grid-template-rows: min-content 1fr min-content;
+  position: relative;
+  z-index: 0;
 }
 
-/* .wrapper {
-  display: grid;
-  background: #1C1C2C;
-  color: #CBDBEE;
-  position: relative;
-  min-height: inherit;
-} */
+.header {
+  grid-area: TheHeader;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.footer {
+  grid-area: Footer;
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+  background: #27293f;
+}
+.page-enter-active,
+.page-leave-active {
+  transition: all 0.4s;
+}
+.page-enter-from,
+.page-leave-to {
+  opacity: 0;
+  filter: blur(1rem);
+}
 </style>

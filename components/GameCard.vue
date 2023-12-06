@@ -32,10 +32,9 @@
 </template>
 
 <script setup>
-// eslint-disable-next-line
 const props = defineProps({
   screenshots: {
-    type: String,
+    type: Array,
     default: null
   },
   name: {
