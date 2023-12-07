@@ -193,39 +193,15 @@
 </template>
 
 <script lang="ts" setup>
-// const isLoading = useState('isLoading')
-
 const route = useRoute()
-
 const id = route.params.id
-
-const ratingPercent = computed(() => Math.round((100 / 5) * game.value.rating))
-
-function dtFormat (date) {
-  const handler = (d) => d < 10 ? '0' + d : d
-
-  date = new Date(date)
-  const year = date.getFullYear()
-  const month = handler(date.getMonth() + 1)
-  const day = handler(date.getDate())
-
-  return day + '.' + month + '.' + year
-}
-
-const released = computed(() => dtFormat(game.value.released))
-const updated = computed(() => dtFormat(game.value.updated))
 
 const { data: game, pending } = await useLazyFetch(`/api/games/${id}`)
 
-// const { data: screenshots } = await useLazyFetch(`/api/games/${id}/screenshots`)
+const ratingPercent = computed(() => useCalcPercent(game.value.rating, 5))
 
-// const { data: additions } = await useFetch(`/api/games/${id}/additions`)
-
-// const { data: series } = await useFetch(`/api/games/${id}/game-series`)
-
-// const { data: stores } = await useLazyFetch(`/api/games/${id}/stores`)
-
-// const { data: achievements } = await useFetch(`/api/games/${id}/achievements`)
+const released = computed(() => useDTFormat(game.value.released))
+const updated = computed(() => useDTFormat(game.value.updated))
 
 </script>
 
