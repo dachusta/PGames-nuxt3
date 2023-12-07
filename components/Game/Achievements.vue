@@ -1,5 +1,5 @@
 <template>
-  <div class="achievements">
+  <div v-if="achievements?.results.length" class="achievements">
     <div class="achievements__title">
       Achievements:
     </div>
@@ -29,7 +29,6 @@
 </template>
 
 <script setup>
-// eslint-disable-next-line
 const props = defineProps({
   // list: {
   //   type: Array,

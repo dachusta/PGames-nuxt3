@@ -1,5 +1,5 @@
 <template>
-  <div class="game-series">
+  <div v-if="series?.results.length" class="game-series">
     <div class="game-series__title">
       Game series:
     </div>
@@ -11,28 +11,22 @@
       @mouseup="endScroll"
       @mouseleave="endScroll"
     >
-      <NuxtLink
+      <GameCard
         v-for="series in series?.results"
         :key="series.id"
-        class="game"
+        class="card game-item"
+        :size="'s'"
+        :screenshots="series.short_screenshots"
+        :name="series.name"
+        :rating="series.rating"
+        :platforms="series.parent_platforms"
         :to="`/${series.id}`"
-      >
-        <img
-          class="game__img"
-          :src="series?.background_image"
-          alt="game"
-          @mousedown.prevent
-        >
-        <div class="game__name">
-          {{ series.name }}
-        </div>
-      </NuxtLink>
+      />
     </div>
   </div>
 </template>
 
 <script setup>
-// eslint-disable-next-line
 const props = defineProps({
   // list: {
   //   type: Array,
@@ -43,9 +37,6 @@ const props = defineProps({
     required: true
   },
 })
-// function toGameDetails (id) {
-//   navigateTo(`/${id}`)
-// }
 
 const { data: series } = await useLazyFetch(`/api/games/${props.gameId}/game-series`)
 
@@ -91,10 +82,10 @@ function endScroll () {
     display: flex;
     gap: 15px;
     padding: 10px 30px 15px 30px;
-    overflow-y: hidden;
+    overflow: auto;
   }
 
-  .game {
+  /* .game {
     display: grid;
     align-content: flex-start;
     max-width: 256px;
@@ -119,6 +110,6 @@ function endScroll () {
     .game__name {
       padding: 5px;
     }
-  }
+  } */
 }
 </style>

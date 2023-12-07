@@ -1,32 +1,33 @@
 <template>
-  <div class="additions">
+  <div v-if="additions?.results.length" class="additions">
     <div class="additions__title">
       Additions:
     </div>
-    <a
-      v-for="addition in additions?.results"
-      :key="addition.id"
-      class="addition"
-      @click="toGameDetails(addition.id)"
+    <div
+      ref="gameAdditionsListEl"
+      class="game-additions__list"
+      @mousedown="startScroll"
+      @mousemove="moveScroll"
+      @mouseup="endScroll"
+      @mouseleave="endScroll"
     >
-      <img
-        class="addition__img"
-        :src="addition?.background_image"
-        alt=".img"
-      >
-      <p class="addition__name">{{ addition.name }}</p>
-      <!-- <div class="addition__date">
-        <p class="addition__released">Released: {{ dtFormat(addition.released) }}</p>
-        <p class="addition__updated">Updated: {{ dtFormat(addition.updated) }}</p>
-      </div>
-      <div class="addition__goto">Go to details</div> -->
-    </a>
+      <GameCard
+        v-for="addition in additions?.results"
+        :key="addition.id"
+        class="card game-item"
+        :size="'s'"
+        :screenshots="addition.short_screenshots"
+        :name="addition.name"
+        :rating="addition.rating"
+        :platforms="addition.parent_platforms"
+        :to="`/${addition.id}`"
+      />
+    </div>
   </div>
 </template>
 
 <script setup>
 
-// eslint-disable-next-line
 const props = defineProps({
   // list: {
   //   type: Array,
@@ -40,78 +41,47 @@ const props = defineProps({
 
 const { data: additions } = await useLazyFetch(`/api/games/${props.gameId}/additions`)
 
-function toGameDetails (id) {
-  navigateTo(`/${id}`)
+const gameSeriesListEl = ref(null)
+
+const isDrag = ref(false)
+
+function startScroll () {
+  isDrag.value = true
 }
+function moveScroll (params) {
+  if (!isDrag.value) return
 
-// const dtFormat = (date) => {
-//   const handler = (d) => d < 10 ? '0' + d : d
-
-//   date = new Date(date)
-//   const year = date.getFullYear()
-//   const month = handler(date.getMonth() + 1)
-//   const day = handler(date.getDate())
-
-//   return day + '.' + month + '.' + year
-// }
+  gameSeriesListEl.value.scrollTo(
+    gameSeriesListEl.value.scrollLeft - params.movementX,
+    0
+  )
+}
+function endScroll () {
+  isDrag.value = false
+}
 </script>
 
 <style  scoped>
 .additions {
   display: grid;
-  gap: 10px;
-  padding: 15px 30px;
+  padding-top: 15px;
   background: rgba(39, 41, 63, 0.75);
 
   .additions__title {
     display: flex;
     justify-self: flex-start;
+    margin-left: 30px;
     padding: 5px 20px;
     font-size: 16px;
     font-weight: 700;
     letter-spacing: 1px;
     background: rgba(102, 204, 51, 0.75);
   }
-
-  .addition {
+  .game-additions__list {
     display: flex;
-    align-items: center;
-    gap: 10px;
-    background: #3C4464;
-    color: inherit;
-    cursor: pointer;
-    transition: transform 0.15s ease, box-shadow 0.2s ease;
-
-    &:hover {
-      transform: scale(100.1%);
-      box-shadow: 0px 0px 10px 1px rgba(99, 163, 236, 75%);
-    }
-
-    .addition__img {
-      background: rgba(39, 41, 63);
-      width: 128px;
-      height: 72px;
-    }
-
-    .addition__name {
-      margin: 0;
-      font-size: 22px;
-      font-weight: 500;
-    }
-
-    .addition__date {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      gap: 10px;
-      margin-left: auto;
-    }
-
-    .addition__goto {
-      padding: 0 30px 0px 70px;
-      font-size: 36px;
-      font-weight: 700;
-    }
+    gap: 15px;
+    padding: 10px 30px 15px 30px;
+    overflow: auto;
   }
 }
 </style>

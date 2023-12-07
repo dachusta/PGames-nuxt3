@@ -1,26 +1,40 @@
 <template>
-  <div class="card game-item">
-    <!-- <img :src="game.background_image" alt=""> -->
+  <NuxtLink
+    class="card game-item"
+    :style="{
+      width: (size === 'm' ? 328 : 224) + 'px',
+    }"
+  >
     <div class="card-top">
-      <div class="wrap-img">
+      <div
+        class="wrap-img"
+        :style="{
+          width: (size === 'm' ? 328 : 224) + 'px',
+          height: (size === 'm' ? 180 : 126) + 'px'
+        }"
+      >
         <img
           :src="props.screenshots[0]?.image"
           alt
         >
       </div>
       <div class="row">
-        <span class="name">{{ props.name }}</span>
+        <span
+          class="name"
+          :style="{
+            fontSize: (size === 'm' ? 18 : 16) + 'px',
+          }"
+        >{{ props.name }}</span>
         <span
           class="rating"
           :style="{ background: ratingBG(props.rating) }"
         >
           {{
-            props.rating
+            useCalcPercent(props.rating, 5)
           }}
         </span>
       </div>
     </div>
-    <!-- <div class="description"></div> -->
     <div class="platform-list">
       <span
         v-for="platform in props.platforms"
@@ -28,11 +42,15 @@
         class="platform-item"
       >{{ platform.platform.name }}</span>
     </div>
-  </div>
+  </NuxtLink>
 </template>
 
 <script setup>
 const props = defineProps({
+  size: {
+    type: String,
+    default: 'm'
+  },
   screenshots: {
     type: Array,
     default: null
@@ -52,9 +70,9 @@ const props = defineProps({
 })
 
 function ratingBG (params) {
-  if (params > 4) {
+  if (params > 3.5) {
     return 'rgb(50 255 50 / 70%)'
-  } else if (params > 3) {
+  } else if (params > 2.5) {
     return 'rgb(255 255 50 / 70%)'
   } else {
     return 'rgb(255 50 50 / 70%)'
@@ -67,12 +85,11 @@ function ratingBG (params) {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 300px;
   background: #3c4464;
   gap: 5px;
   border-radius: 10px;
-  overflow: hidden;
-  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
 
   transition: transform .15s ease, box-shadow .2s ease;
 
@@ -85,10 +102,14 @@ function ratingBG (params) {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  border-radius: 10px;
+  overflow: hidden;
 }
 .game-item .wrap-img {
-  width: 100%;
-  height: 175px;
+  /* width: 272px; */
+  /* height: 175px; */
+  /* width: 272px; */
+  /* height: 153px; */
 }
 .game-item img {
   width: 100%;
@@ -98,6 +119,7 @@ function ratingBG (params) {
 .row {
   display: flex;
   justify-content: space-between;
+  gap: 10px;
   padding: 0px 10px;
 }
 .game-item .name {
