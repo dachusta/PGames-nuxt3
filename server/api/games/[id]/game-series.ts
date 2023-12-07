@@ -1,7 +1,8 @@
 export default defineEventHandler(async (event) => {
+  const { apiKey } = useRuntimeConfig()
   const id = getRouterParam(event, 'id')
 
-  const url = `https://api.rawg.io/api/games/${id}/game-series?key=8f4899e2e65a42e58807bc9bbec35cca`
+  const url = `https://api.rawg.io/api/games/${id}/game-series?key=${apiKey}`
 
   const response = await $fetch(url, {
     retry: 3,

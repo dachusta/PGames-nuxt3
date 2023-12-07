@@ -1,10 +1,10 @@
 export default defineEventHandler(async (event) => {
+  const { apiKey } = useRuntimeConfig()
   const query = getQuery(event)
-  
+
   const { page, pageSize, search, ordering } = query || {}
 
-  const key = '8f4899e2e65a42e58807bc9bbec35cca'
-  let url = `https://api.rawg.io/api/games?key=${key}`
+  let url = `https://api.rawg.io/api/games?key=${apiKey}`
 
   if (page) {
     url += `&page=${page}`
