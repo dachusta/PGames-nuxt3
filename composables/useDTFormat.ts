@@ -1,10 +1,14 @@
 export const useDTFormat = (date: string | Date): string => {
-  const handler = (d: number) => d < 10 ? '0' + d : d
+  const handler = (d: number): string => d < 10 ? '0' + d : `${d}`;
 
-  date = new Date(date)
-  const year = date.getFullYear()
-  const month = handler(date.getMonth() + 1)
-  const day = handler(date.getDate())
+  if (typeof date === 'string') {
+    const parsedDate = new Date(date);
+    date = parsedDate;
+  }
 
-  return day + '.' + month + '.' + year
-}
+  const year = date.getFullYear();
+  const month = handler(date.getMonth() + 1);
+  const day = handler(date.getDate());
+
+  return `${day}.${month}.${year}`;
+};
